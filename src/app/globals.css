@@ -1,0 +1,272 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+ * Design tokens — Mayqueen Slim: Clean & Vibrant D2C Wellness.
+ * Xanh lá thảo mộc / sage (đồng bộ vỏ hộp Mayqueen Slim & Yodetox) + nền trắng ngọc trai / be kem.
+ * ------------------------------------------------------------------------- */
+@theme inline {
+  --font-sans: var(--font-be-vietnam), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-fraunces), Georgia, "Times New Roman", serif;
+}
+
+@theme {
+  /* nền */
+  --color-pearl: #fffdf8;
+  --color-cream: #f8f5ec;
+  --color-sand: #efe9da;
+
+  /* xanh thảo mộc */
+  --color-sage-50: #f4f7ee;
+  --color-sage-100: #e7eedb;
+  --color-sage-200: #d1dfbb;
+  --color-sage-300: #b3ca93;
+  --color-sage-400: #93b06c;
+  --color-sage-500: #77954f;
+  --color-sage-600: #5f7d41;
+  --color-sage-700: #4a6234;
+  --color-sage-800: #3c4f2c;
+  --color-sage-900: #2c3a21;
+
+  /* xanh lá tươi trên vỏ hộp — điểm nhấn "vibrant" */
+  --color-leaf: #8dc63f;
+  --color-leaf-soft: #dcefc0;
+
+  /* xanh rừng đậm: chữ logo, nền tối */
+  --color-forest: #1e3a28;
+  --color-forest-deep: #142a1c;
+
+  /* mực */
+  --color-ink: #1c2a21;
+  --color-ink-soft: #4b5a50;
+  --color-ink-muted: #7b877e;
+
+  --shadow-soft: 0 24px 60px -28px rgb(30 58 40 / 0.28);
+  --shadow-card: 0 12px 34px -18px rgb(30 58 40 / 0.22);
+
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-expo: cubic-bezier(0.76, 0, 0.24, 1);
+
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-marquee-reverse: marquee 46s linear infinite reverse;
+  /* dải trôi dọc (cột đánh giá) */
+  --animate-marquee-up: marquee-y 48s linear infinite;
+  --animate-marquee-down: marquee-y 54s linear infinite reverse;
+  --animate-float: float 5s ease-in-out infinite;
+  --animate-float-slow: float 7s ease-in-out infinite;
+  --animate-spin-slow: spin 24s linear infinite;
+  --animate-kenburns: kenburns 8s ease-out forwards;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes marquee-y {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-50%);
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-12px) rotate(2deg);
+    }
+  }
+  @keyframes kenburns {
+    from {
+      transform: scale(1.05);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+}
+
+/* --chrome = thanh thông báo (36px) + header (64px | 80px) → hero cao đúng phần còn lại của màn hình */
+html {
+  -webkit-text-size-adjust: 100%;
+  /* cùng màu body → lúc chuyển trang / cuộn quá đà không lộ nền trắng */
+  background-color: var(--color-pearl);
+  --chrome: 100px;
+  /* "Một màn hình" có giới hạn: thu nhỏ trình duyệt (zoom 50–75%) không làm section phình khổng lồ */
+  --screen: min(100svh, 1000px);
+}
+@media (min-width: 1024px) {
+  html {
+    --chrome: 116px;
+  }
+}
+
+/* Chặn tràn ngang; dùng clip (không phải hidden) để position: sticky vẫn chạy */
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+body {
+  @apply bg-pearl text-ink font-sans antialiased;
+}
+
+::selection {
+  background: var(--color-leaf-soft);
+  color: var(--color-forest);
+}
+
+img {
+  -webkit-user-drag: none;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ---------- Typography helpers ---------- */
+@utility eyebrow {
+  @apply text-sage-600 text-[11px] font-semibold tracking-[0.28em] uppercase;
+}
+@utility h-display {
+  @apply text-forest font-serif leading-[1.05] font-normal tracking-[-0.02em];
+}
+@utility field {
+  @apply border-forest/15 text-ink placeholder:text-ink-muted focus:border-sage-500 focus:ring-sage-200/60 w-full rounded-xl border bg-white px-4 py-3 text-base transition outline-none focus:ring-2 sm:text-sm;
+}
+/* Vầng sáng mềm: gradient tròn thay cho filter blur (rẻ hơn nhiều khi cuộn). Màu lấy từ text-* */
+@utility glow {
+  background: radial-gradient(closest-side, currentColor, transparent);
+}
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ---------- Reveal on scroll (trạng thái ẩn ban đầu; hooks/useReveal chạy animation) ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+}
+.reveal[data-reveal="left"] {
+  transform: translateX(-36px);
+}
+.reveal[data-reveal="right"] {
+  transform: translateX(36px);
+}
+.reveal[data-reveal="scale"] {
+  transform: scale(0.94);
+}
+.reveal[data-reveal="clip"] {
+  transform: none;
+  opacity: 1;
+  clip-path: inset(14% 8% 14% 8% round 2rem);
+}
+
+/* ---------- SplitText: hiện từng từ (opacity + transform, không blur để mượt) ---------- */
+.split .split-unit {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.35em);
+}
+
+/* ---------- Marquee: dừng khi hover ---------- */
+.marquee-pause:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Bản đồ trong footer tối: đảo màu → nền tối, giữ màu đường & địa danh dịu, ánh xanh rêu */
+.map-dark {
+  filter: invert(0.9) hue-rotate(180deg) saturate(0.55) brightness(0.92) contrast(0.92) sepia(0.15);
+}
+
+/* ---------- Chuyển trang (components/fx/PageTransition) ----------
+   Rời trang: nội dung mờ dần + trôi nhẹ lên; vào trang mới: hiện lên từ dưới.
+   Nền giữa 2 trang là màu body (kem) → không chớp trắng. */
+main {
+  transition:
+    opacity 0.2s var(--ease-out-expo),
+    transform 0.2s var(--ease-out-expo);
+}
+main.page-leave {
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+}
+main.page-enter {
+  animation: pageIn 0.5s var(--ease-out-expo) both;
+}
+@keyframes pageIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes sheetIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes loadbar {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes popIn {
+  0% {
+    transform: scale(0.6);
+  }
+  60% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
