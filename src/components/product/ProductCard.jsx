@@ -4,7 +4,6 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Price from "@/components/ui/Price";
-import Stars from "@/components/ui/Stars";
 import { useCart } from "@/context/CartContext";
 import { href } from "@/i18n";
 import { cn } from "@/lib/utils";
@@ -64,10 +63,6 @@ export default function ProductCard({ product, lang, labels, className, priority
         <p className="text-ink-soft mt-1 line-clamp-2 text-[12px] leading-snug sm:text-[13px]">
           {product.tagline}
         </p>
-        <div className="text-ink-muted mt-2 flex items-center gap-1.5 text-[11px]">
-          <Stars value={product.rating} size="size-3" />
-          <span>({product.reviews.toLocaleString(lang === "en" ? "en-US" : "vi-VN")})</span>
-        </div>
         <Price
           price={option.price}
           compareAt={option.compareAt}

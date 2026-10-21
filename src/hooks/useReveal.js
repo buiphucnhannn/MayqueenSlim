@@ -23,6 +23,8 @@ const FRAMES = {
   left: [{ opacity: 0, transform: "translateX(-36px)" }, SHOWN],
   right: [{ opacity: 0, transform: "translateX(36px)" }, SHOWN],
   scale: [{ opacity: 0, transform: "scale(0.94)" }, SHOWN],
+  fade: [{ opacity: 0, transform: "none" }, SHOWN],
+  zoom: [{ transform: "scale(1.18)" }, { transform: "scale(1)" }],
   clip: [
     { clipPath: "inset(14% 8% 14% 8% round 2rem)" },
     { clipPath: "inset(0% 0% 0% 0% round 0rem)" },
@@ -57,7 +59,8 @@ function reveal(el) {
 
   const variant = el.dataset.reveal;
   el.animate(FRAMES[variant] || FRAMES.default, {
-    duration: variant === "clip" ? 1400 : 1100,
+    duration:
+      variant === "zoom" ? 2200 : variant === "clip" ? 1400 : variant === "fade" ? 900 : 950,
     delay: ms(cs, "--reveal-delay"),
     easing: EASE,
     fill: "both",
@@ -80,7 +83,7 @@ export default function useReveal() {
             io.unobserve(e.target);
           }
         }),
-      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
+      { threshold: 0, rootMargin: "0px 0px -4% 0px" }, // nhạy: vừa ló vào màn hình là hiện
     );
     const watched = new WeakSet();
     const watch = (el) => {

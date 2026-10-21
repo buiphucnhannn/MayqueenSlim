@@ -5,10 +5,10 @@ import Link from "next/link";
 import ProductCard from "@/components/product/ProductCard";
 import ProductGallery from "@/components/product/ProductGallery";
 import ProductPurchase from "@/components/product/ProductPurchase";
-import TestimonialsSection from "@/components/sections/TestimonialsSection";
+import TestimonialSlider from "@/components/sections/TestimonialSlider";
+import Disclosure from "@/components/ui/Disclosure";
 import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
-import Stars from "@/components/ui/Stars";
 import { siteConfig } from "@/config/site";
 import { testimonialsHeading } from "@/data/home";
 import { getProduct, products } from "@/data/products";
@@ -24,10 +24,16 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { lang, slug } = await params;
   const raw = getProduct(slug);
-  if (!raw) return {};
+  if (!raw) return { title: localize(siteConfig.notFoundTitle, lang) };
   const p = localize(raw, lang);
   return {
-    title: `${p.name} — ${p.tagline}`,
+    // "Yodetox Extra – … | Mayqueen Slim"; sản phẩm trùng tên thương hiệu thì không lặp lại hậu tố
+    title:
+      p.name === siteConfig.name
+        ? { absolute: `${p.name} | ${p.tagline}` }
+        : p.name.includes("–") || p.tagline.length > 40
+          ? p.name // tagline dài (combo) → chỉ tên, tránh tab quá dài
+          : `${p.name} – ${p.tagline}`,
     description: p.short,
     alternates: {
       canonical: href(lang, `/san-pham/${slug}`),
@@ -49,7 +55,7 @@ async function ProductContent({ params }) {
   const labels = { ...L.ui, ...L.ui.product };
   const related = L.products.filter((x) => x.slug !== slug);
   const reviews = L.testimonials.filter(
-    (r) => slug === "combo-sang-dot-toi-loc" || !r.product.startsWith("Combo"),
+    (r) => slug === "combo-sang-dot-toi-loc" || !/combo/i.test(r.product),
   );
 
   const jsonLd = {
@@ -59,7 +65,6 @@ async function ProductContent({ params }) {
     image: p.images.map((i) => site.url + i),
     description: p.short,
     brand: { "@type": "Brand", name: "Mayqueen · B.O.T Việt Nam" },
-    aggregateRating: { "@type": "AggregateRating", ratingValue: p.rating, reviewCount: p.reviews },
     offers: p.options.map((o) => ({
       "@type": "Offer",
       price: o.price,
@@ -86,14 +91,7 @@ async function ProductContent({ params }) {
               <p className="reveal eyebrow flex items-center gap-2">
                 <Leaf className="size-3.5" aria-hidden="true" /> {p.ritual} · {p.spec}
               </p>
-              <h1 className="reveal h-display mt-4 text-[34px] sm:text-[42px]">{p.name}</h1>
-              <div className="reveal text-ink-soft mt-4 flex items-center gap-3 text-sm">
-                <Stars value={p.rating} size="size-4" />
-                <span>
-                  {p.rating.toFixed(1)} ·{" "}
-                  {p.reviews.toLocaleString(lang === "en" ? "en-US" : "vi-VN")} {L.ui.reviews}
-                </span>
-              </div>
+              <h1 className="reveal h-lux mt-4 text-[32px] sm:text-[40px]">{p.name}</h1>
               <p className="reveal text-sage-700 mt-5 font-serif text-xl italic">{p.tagline}</p>
               <p className="reveal text-ink-soft mt-3 leading-relaxed">{p.short}</p>
 
@@ -130,15 +128,21 @@ async function ProductContent({ params }) {
                   [labels.usage, <p key="u">{p.usage}</p>],
                   [labels.spec, <p key="s">{p.spec}</p>],
                 ].map(([title, body], i) => (
-                  <details key={title} className="group py-5" open={i === 0}>
-                    <summary className="text-forest flex cursor-pointer list-none items-center justify-between font-serif text-xl [&::-webkit-details-marker]:hidden">
-                      {title}
-                      <span className="text-sage-600 text-2xl leading-none transition group-open:rotate-45">
+                  <Disclosure
+                    key={title}
+                    defaultOpen={i === 0}
+                    className="py-5"
+                    buttonClassName="text-forest font-serif text-xl"
+                    panelClassName="text-ink-soft pt-4 text-sm leading-relaxed"
+                    summary={title}
+                    icon={
+                      <span className="text-sage-600 text-2xl leading-none transition-transform duration-500 group-data-[open=true]:rotate-45">
                         +
                       </span>
-                    </summary>
-                    <div className="text-ink-soft mt-4 text-sm leading-relaxed">{body}</div>
-                  </details>
+                    }
+                  >
+                    {body}
+                  </Disclosure>
                 ))}
               </div>
               <p className="text-ink-muted mt-6 text-xs leading-relaxed italic">
@@ -149,9 +153,9 @@ async function ProductContent({ params }) {
         </Container>
       </section>
 
-      <TestimonialsSection data={L.testimonialsHeading} reviews={reviews} />
+      <TestimonialSlider data={L.testimonialsHeading} reviews={reviews} />
 
-      <section className="bg-pearl py-16 lg:py-24">
+      <section className="bg-pearl section-y">
         <Container wide>
           <SectionHeading title={labels.related} />
           <div className="mx-auto mt-12 grid max-w-5xl gap-8 sm:grid-cols-2">

@@ -1,11 +1,11 @@
 import PageHero from "@/components/layout/PageHero";
 import Bestsellers from "@/components/sections/Bestsellers";
 import FaqSection from "@/components/sections/FaqSection";
-import RitualSection from "@/components/sections/RitualSection";
 import Container from "@/components/ui/Container";
 import { siteConfig } from "@/config/site";
 import { faqs } from "@/data/faqs";
-import { faqHeading, ritual, shopPromo } from "@/data/home";
+import { faqHeading, shopPromo } from "@/data/home";
+import { heroImages } from "@/data/images";
 import { categories, products } from "@/data/products";
 import { ui } from "@/data/ui";
 import { href, localize, t } from "@/i18n";
@@ -36,18 +36,19 @@ export async function generateMetadata({ params }) {
 export default async function ShopPage({ params }) {
   const { lang } = await params;
   const site = localize(siteConfig, lang);
-  const L = localize({ copy, products, categories, ui, shopPromo, ritual, faqs, faqHeading }, lang);
+  const L = localize({ copy, products, categories, ui, shopPromo, faqs, faqHeading }, lang);
 
   return (
     <>
       <PageHero
         crumbs={[{ label: L.ui.home, href: href(lang, "/") }, { label: L.copy.title }]}
+        image={heroImages.mayqueenDark}
         eyebrow={L.copy.eyebrow}
         title={L.copy.title}
         accent={L.copy.accent}
         text={L.copy.text}
       />
-      <section className="bg-pearl py-14 lg:py-20">
+      <section className="bg-pearl pt-10 pb-16 sm:pt-12 sm:pb-20 lg:pt-14 lg:pb-24">
         <Container wide>
           <Bestsellers
             lang={lang}
@@ -58,7 +59,6 @@ export default async function ShopPage({ params }) {
           />
         </Container>
       </section>
-      <RitualSection lang={lang} data={L.ritual} />
       <FaqSection data={L.faqHeading} faqs={L.faqs} phone={site.phone} phoneRaw={site.phoneRaw} />
     </>
   );

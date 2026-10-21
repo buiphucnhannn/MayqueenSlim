@@ -40,7 +40,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { lang, slug } = await params;
   const raw = getArticle(slug);
-  if (!raw) return {};
+  if (!raw) return { title: localize(siteConfig.notFoundTitle, lang) };
   const a = localize(raw, lang);
   return {
     title: a.title,
@@ -99,44 +99,48 @@ async function ArticleContent({ params }) {
 
   return (
     <article>
-      {/* Banner bài viết: ảnh bìa làm nền tràn ngang (parallax) + lớp phủ tối, chữ trắng căn giữa */}
-      <header className="bg-forest-deep text-pearl relative flex min-h-[420px] items-center overflow-hidden py-16 lg:h-[min(62svh,560px)]">
-        <Parallax speed={0.12} className="absolute inset-x-0 -inset-y-[15%]">
+      {/* Banner bài viết: ảnh ngang nền tối (cùng ảnh thẻ nổi bật), cụm chữ căn GIỮA theo chiều cao như các banner khác */}
+      <header className="bg-moss text-pearl relative flex h-[clamp(460px,72svh,620px)] overflow-hidden">
+        <Parallax speed={0.06} className="media-cap absolute inset-x-0 -inset-y-[6%]">
           <Image
-            src={a.cover}
+            src={a.banner ?? a.cover}
             alt=""
             fill
             priority
             quality={90}
             sizes="100vw"
-            className="object-cover"
+            className="object-cover object-right"
           />
         </Parallax>
-        <div className="from-forest-deep/55 via-forest-deep/65 to-forest-deep/85 absolute inset-0 bg-gradient-to-b" />
+        <div className="from-moss via-moss/60 absolute inset-0 hidden bg-gradient-to-r via-40% to-transparent sm:block" />
+        <div className="bg-moss/65 absolute inset-0 sm:hidden" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/25" />
 
-        <Container className="relative max-w-4xl text-center">
-          <Link
-            href={href(lang, "/song-dep")}
-            className="reveal text-pearl/75 hover:text-pearl inline-flex items-center gap-2 text-sm"
-          >
-            <ArrowLeft className="size-4" aria-hidden="true" /> {L.copy.back}
-          </Link>
-          <p className="reveal text-leaf mt-8 text-[12px] font-semibold tracking-[0.24em] uppercase">
-            {categoryLabels[a.category]}
-          </p>
-          <SplitText
-            as="h1"
-            text={a.title}
-            step={40}
-            className="h-display text-pearl mt-4 text-[30px] text-balance sm:text-4xl lg:text-[46px]"
-          />
-          <p className="reveal text-pearl/70 mt-6 flex items-center justify-center gap-4 text-sm">
-            <time dateTime={a.date}>{formatDate(a.date, lang)}</time>
-            <span className="bg-pearl/30 h-3 w-px" aria-hidden="true" />
-            <span className="flex items-center gap-1.5">
-              <Clock className="size-4" aria-hidden="true" /> {a.readTime} {L.ui.minRead}
-            </span>
-          </p>
+        <Container wide className="relative flex w-full flex-col pt-24 pb-10 lg:pt-28 lg:pb-12">
+          <div className="my-auto max-w-4xl py-6">
+            <Link
+              href={href(lang, "/song-dep")}
+              className="reveal text-pearl/85 hover:text-sage-300 mb-7 inline-flex items-center gap-2 text-xs"
+            >
+              <ArrowLeft className="size-4" aria-hidden="true" /> {L.copy.back}
+            </Link>
+            <p className="reveal text-sage-300 text-[11px] font-semibold tracking-[0.3em] uppercase">
+              {categoryLabels[a.category]}
+            </p>
+            <SplitText
+              as="h1"
+              text={a.title}
+              step={40}
+              className="h-lux text-pearl mt-4 text-[28px] text-balance sm:text-[38px] lg:text-[46px]"
+            />
+            <p className="reveal text-pearl/75 mt-6 flex items-center gap-4 text-sm">
+              <time dateTime={a.date}>{formatDate(a.date, lang)}</time>
+              <span className="bg-pearl/30 h-3 w-px" aria-hidden="true" />
+              <span className="flex items-center gap-1.5">
+                <Clock className="size-4" aria-hidden="true" /> {a.readTime} {L.ui.minRead}
+              </span>
+            </p>
+          </div>
         </Container>
       </header>
 
@@ -234,7 +238,7 @@ async function ArticleContent({ params }) {
         </aside>
       </Container>
 
-      <section className="border-forest/10 bg-pearl border-t py-16 lg:py-20">
+      <section className="border-forest/10 bg-linen section-y border-t">
         <Container wide>
           <h2 className="reveal h-display text-3xl sm:text-4xl">{L.copy.more}</h2>
           <ul className="mt-8 grid gap-4 md:grid-cols-2">

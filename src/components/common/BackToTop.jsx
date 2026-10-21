@@ -31,7 +31,7 @@ export default function BackToTop({ label }) {
   }, []);
 
   return (
-    <div className="fixed bottom-4 left-4 z-[60] [transform:translateY(calc(var(--float-lift,0px)*-1))] transition-transform duration-300 ease-out sm:bottom-6 sm:left-6">
+    <div className="fixed bottom-4 left-4 z-[60] sm:bottom-6 sm:left-6">
       <button
         type="button"
         aria-label={label}

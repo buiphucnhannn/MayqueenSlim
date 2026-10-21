@@ -1,263 +1,261 @@
 import { t } from "@/i18n";
-import { productImages as P } from "./images";
-
-// Nội dung các section trang chủ (song ngữ). Icon là tên icon lucide, map trong component.
-
-export const announcements = [
-  t("Freeship toàn quốc cho đơn từ 500.000₫", "Free nationwide shipping on orders over 500,000₫"),
-  t("Được kiểm tra hàng trước khi thanh toán", "Inspect your order before you pay"),
-  t("Chính hãng B.O.T Việt Nam · Đầy đủ giấy phép", "Authentic B.O.T Vietnam · Fully licensed"),
-];
+import { heroImages, productImages as P, videoFrames as V } from "./images";
 
 /**
- * Slider hero toàn màn hình (kiểu The Beauty Chef). Mỗi slide:
- * - bg: màu nền lấy đúng từ viền ảnh → ảnh hoà liền vào nền, không có khung.
- * - side: ảnh nằm bên "right" | "left"; dark: chữ sáng khi nền tối.
- * - Mọi slide đều lót bản nhoè của chính ảnh làm nền (PhotoBackdrop), bg là màu phủ phía có chữ.
+ * Nội dung trang chủ v2 (theo brief "Nâng cấp website Mayqueen Slim – phiếu 38 bản 2").
+ * Quy ước: thông tin CHƯA CÓ để dạng [ … ] — không tự điền; khối viết tạm gắn cờ sample: true
+ * → giao diện hiện nhãn "Nội dung mẫu" để khách không đưa lên chạy thật.
  */
+
+// Lưu ý pháp lý bắt buộc (hiện ở cuối khối video và chân trang)
+export const legalNote = t(
+  "Thực phẩm này không phải là thuốc, không có tác dụng thay thế thuốc chữa bệnh.",
+  "This food is not a medicine and does not replace medical treatment.",
+);
+
+// ---- Khối 1 · Video TVC + 2 Slide sản phẩm ----
 export const hero = {
+  mute: t("Bật / tắt tiếng", "Toggle sound"),
+  pause: t("Phát / tạm dừng", "Play / pause"),
+  scroll: t("Cuộn xuống", "Scroll"),
   slides: [
     {
-      image: P.yodetox.garden,
-      bg: "#5f6236",
-      side: "right",
-      pos: "55% 60%",
-      dark: true,
-      badge: t("Thanh lọc mỗi tối", "Nightly cleanse"),
-      title: t("Nhẹ bụng mỗi sáng thức dậy", "Wake up feeling lighter"),
+      id: "mayqueen-slim",
+      eyebrow: t("Mayqueen Slim · Buổi sáng", "Mayqueen Slim · Morning"),
+      title: t("Sáng đốt mỡ", "Burn by day"),
+      accent: t("Đánh thức vóc dáng", "Awaken your shape"),
       text: t(
-        "Yodetox Extra — thức uống thảo mộc thanh lọc tiêu hoá, giảm đầy hơi, cho làn da sáng khoẻ từ bên trong.",
-        "Yodetox Extra — a botanical drink that cleanses digestion, eases bloating and helps skin glow from within.",
+        "Viên uống thảo mộc tác động kép — tăng cường chuyển hoá chất béo, kiểm soát cơn thèm ăn, cho cơ thể nhẹ nhõm và tràn đầy năng lượng mỗi ngày.",
+        "A botanical morning ritual — enhances fat metabolism, curbs cravings, keeping your body light and revitalised throughout the day.",
       ),
-      cta: t("Khám phá Yodetox", "Discover Yodetox"),
-      path: "/san-pham/yodetox-extra",
-      sticker: t("100%|thảo mộc", "100%|botanical"),
+      buy: t("Khám phá Mayqueen Slim", "Explore Mayqueen Slim"),
+      buyPath: "/san-pham/mayqueen-slim",
+      consult: t("Tư vấn miễn phí", "Free advice"),
+      image: heroImages.mayqueen,
     },
     {
-      image: P.yodetox.giftBox,
-      bg: "#d2ccab",
-      side: "left",
-      pos: "40% 55%",
-      badge: t("Combo liệu trình", "Ritual set"),
-      title: t("Sáng đốt mỡ, tối thanh lọc", "Burn by day, cleanse by night"),
+      id: "yodetox-extra",
+      eyebrow: t("Yodetox Extra · Buổi tối", "Yodetox Extra · Evening"),
+      title: t("Tối thanh lọc", "Cleanse by night"),
+      accent: t("Nhẹ bụng an yên", "Calm & light gut"),
       text: t(
-        "Bộ đôi Mayqueen Slim + Yodetox tác động kép: vóc dáng thon gọn đi cùng một cơ thể khoẻ, nhẹ nhõm từ bên trong.",
-        "The Mayqueen Slim + Yodetox duo works twice as hard: a slimmer shape and a lighter, healthier body from within.",
+        "Thức uống thảo mộc tự nhiên — thanh lọc hệ tiêu hoá, giảm đầy hơi, giúp cơ thể đào thải độc tố và nuôi dưỡng làn da tươi tắn sau giấc ngủ trọn vẹn.",
+        "A gentle botanical drink — cleanses digestion, eases bloating, detoxifying your body for restful sleep and glowing skin.",
       ),
-      cta: t("Chọn combo & tiết kiệm", "Shop the set & save"),
-      path: "/san-pham/combo-sang-dot-toi-loc",
-      sticker: t("Tiết kiệm|đến 17%", "Save|up to 17%"),
+      buy: t("Khám phá Yodetox Extra", "Explore Yodetox Extra"),
+      buyPath: "/san-pham/yodetox-extra",
+      consult: t("Tư vấn miễn phí", "Free advice"),
+      image: heroImages.yodetox,
+    },
+  ],
+  // Tương thích ngược
+  image: heroImages.mayqueen,
+  eyebrow: t("Mayqueen Slim · Buổi sáng", "Mayqueen Slim · Morning"),
+  title: t("Sáng đốt mỡ", "Burn by day"),
+  accent: t("Đánh thức vóc dáng", "Awaken your shape"),
+  text: t(
+    "Viên uống thảo mộc tác động kép — tăng cường chuyển hoá chất béo, kiểm soát cơn thèm ăn, cho cơ thể nhẹ nhõm và tràn đầy năng lượng mỗi ngày.",
+    "A botanical morning ritual — enhances fat metabolism, curbs cravings, keeping your body light and revitalised throughout the day.",
+  ),
+  buy: t("Khám phá Mayqueen Slim", "Explore Mayqueen Slim"),
+  buyPath: "/san-pham/mayqueen-slim",
+  consult: t("Tư vấn miễn phí", "Free advice"),
+};
+
+// ---- Đoạn "biến hình" ngay sau video: cuộn tới đâu đổi cảnh tới đó (khung hình từ video minh hoạ) ----
+export const transformation = {
+  eyebrow: t("Hành trình của bạn", "Your journey"),
+  steps: [
+    {
+      image: V.bloated,
+      kicker: t("Trước đây", "Before"),
+      title: t("Nặng nề,", "Heavy,"),
+      accent: t("thiếu tự tin", "unsure of myself"),
+      text: t(
+        "Đầy bụng sau mỗi bữa ăn, quần áo chật dần — và ngại nhìn mình trong gương.",
+        "Bloated after every meal, clothes getting tighter — avoiding the mirror.",
+      ),
     },
     {
-      image: P.mayqueen.sunlight,
-      bg: "#d8d2b3",
-      side: "right",
-      pos: "62% 55%",
-      frame: "square",
-      badge: t("Viên uống giữ dáng thảo mộc", "Botanical slimming capsules"),
-      title: t("Thon gọn từ bên trong", "Slim from within"),
+      image: V.morning,
+      kicker: t("07:00 · Buổi sáng", "7:00 AM · Morning"),
+      title: t("Bắt đầu", "Start with"),
+      accent: t("từ một thói quen nhỏ", "one small habit"),
       text: t(
-        "Viên uống thảo mộc Mayqueen Slim hỗ trợ chuyển hoá mỡ thừa, kiểm soát cơn thèm ăn — giữ dáng an toàn, không ép cân, không bỏ bữa.",
-        "Mayqueen Slim botanical capsules support fat metabolism and curb cravings — stay in shape safely, no crash diets, no skipped meals.",
+        "Một viên Mayqueen Slim trước bữa sáng — đánh thức nhịp chuyển hoá của ngày mới.",
+        "One Mayqueen Slim capsule before breakfast — waking up your metabolism.",
       ),
-      cta: t("Mua Mayqueen Slim", "Shop Mayqueen Slim"),
-      path: "/san-pham/mayqueen-slim",
-      sticker: t("Freeship|toàn quốc", "Free|shipping"),
+    },
+    {
+      image: V.evening,
+      kicker: t("20:00 · Buổi tối", "8:00 PM · Evening"),
+      title: t("Thả lỏng,", "Unwind,"),
+      accent: t("thanh lọc nhẹ nhàng", "cleanse gently"),
+      text: t(
+        "Một ly Yodetox Extra ấm sau bữa tối — để cơ thể được nghỉ ngơi và làm mới.",
+        "A warm Yodetox Extra after dinner — letting your body rest and renew.",
+      ),
+    },
+    {
+      image: V.confident,
+      kicker: t("Mỗi ngày", "Every day"),
+      title: t("Nhẹ nhõm,", "Lighter,"),
+      accent: t("tự tin với chính mình", "confident in my body"),
+      text: t(
+        "Không ép cân, không bỏ bữa — chỉ là một cơ thể được chăm sóc đúng cách, từ bên trong.",
+        "No crash diets, no skipped meals — just a body cared for properly, from within.",
+      ),
     },
   ],
 };
 
+// ---- Khối 2 · Câu chuyện thương hiệu (NỘI DUNG MẪU — khách sẽ tự viết) ----
+export const story = {
+  sample: true,
+  eyebrow: t("Câu chuyện Mayqueen", "The Mayqueen story"),
+  title: t("Thon gọn từ bên trong", "Slim from within"),
+  accent: t("Tinh hoa thảo mộc Việt", "The essence of Vietnamese botanicals"),
+  // 1 đoạn ngắn kiểu Kobler (Chủ tịch sẽ viết lại bản chính thức)
+  paragraphs: [
+    t(
+      "Từ năm [năm thành lập], Mayqueen chọn lọc thảo mộc và sản xuất tại nhà máy đạt chuẩn GMP — sáng nuôi dưỡng năng lượng, tối trả lại sự nhẹ nhõm, để vóc dáng thon gọn đi cùng sức khoẻ bền lâu.",
+      "Since [founding year], Mayqueen has selected botanicals and manufactured in a GMP-certified factory — energy by morning, lightness by night, so a slimmer shape comes with lasting health.",
+    ),
+  ],
+  pillars: [
+    { label: t("Thảo mộc", "Botanical"), text: t("Nguồn gốc rõ ràng", "Clear origins") },
+    { label: t("Chuẩn GMP", "GMP-certified"), text: t("Sản xuất tại Việt Nam", "Made in Vietnam") },
+    {
+      label: t("Tác động kép", "Dual action"),
+      text: t("Sáng đốt – tối lọc", "Burn by day, cleanse by night"),
+    },
+    { label: t("Đồng hành", "Guidance"), text: t("Tư vấn liệu trình 1:1", "1:1 ritual coaching") },
+  ],
+  founder: t("[Tên Chủ tịch]", "[Chairman's name]"),
+  founderTitle: t("[Chức danh] · Mayqueen – B.O.T Việt Nam", "[Title] · Mayqueen – B.O.T Vietnam"),
+  cta: t("Khám phá sản phẩm", "Explore products"),
+  image: V.productShot,
+};
+
+// ---- Sản phẩm (giữ combo Sáng – Tối & nút Mua ngay từ bản cũ) ----
+export const showcase = {
+  eyebrow: t("Sản phẩm", "Products"),
+  title: t("Bộ đôi Sáng – Tối", "The Day – Night duo"),
+  accent: t("Cho vóc dáng nhẹ nhõm", "For a lighter you"),
+  text: t(
+    "Dùng riêng từng sản phẩm hoặc kết hợp thành liệu trình tác động kép.",
+    "Use each on its own or pair them into a dual-action ritual.",
+  ),
+  all: t("Xem tất cả sản phẩm", "View all products"),
+};
+
+// ---- Khối 3 · Thành phần (tiêu đề; dữ liệu ở data/ingredients.js) ----
+export const ingredientsHeading = {
+  eyebrow: t("Thành phần", "Ingredients"),
+  title: t("Từng lớp thảo mộc", "Layer by layer"),
+  accent: t("Kiến tạo nghi thức", "Crafting the ritual"),
+  // Cột phải (tương ứng "Công nghệ phía sau sự tinh tế" của Kobler) — chỉ dùng thông tin có trong hồ sơ PDF
+  process: {
+    title: t("Quy trình", "The process"),
+    accent: t("Phía sau mỗi sản phẩm", "Behind every product"),
+    cta: t("Xem chứng nhận", "View certificates"),
+    cards: [
+      {
+        title: t("Nhà máy đạt chuẩn GMP", "GMP-certified factory"),
+        text: t(
+          "Sản xuất tại CTCP Dược phẩm Công nghệ cao Goldcare — GMP số 69/2023/ATTP-CNGMP.",
+          "Made by Goldcare High-Tech Pharma — GMP No. 69/2023/ATTP-CNGMP.",
+        ),
+        image: P.mayqueen.floating,
+      },
+      {
+        title: t("Nguyên liệu có kiểm nghiệm", "Tested raw materials"),
+        text: t(
+          "9 phiếu kiểm nghiệm (COA) cho nguyên liệu đầu vào từ nhà cung cấp.",
+          "9 certificates of analysis (COA) for incoming raw materials.",
+        ),
+        image: V.productShot,
+      },
+      {
+        title: t("An toàn thực phẩm ISO 22000", "ISO 22000 food safety"),
+        text: t(
+          "Hệ thống quản lý an toàn thực phẩm đạt ISO 22000:2018.",
+          "Food-safety management system certified ISO 22000:2018.",
+        ),
+        image: P.yodetox.garden,
+      },
+      {
+        title: t("Nghi thức sáng – tối", "Morning – evening ritual"),
+        text: t(
+          "Sáng Mayqueen Slim, tối Yodetox Extra — liệu trình tác động kép.",
+          "Mayqueen Slim by day, Yodetox Extra by night — a dual-action ritual.",
+        ),
+        image: V.evening,
+      },
+    ],
+  },
+};
+
+// ---- Khối 4 · Chứng nhận (tiêu đề + số liệu thật; ô chứng nhận ở data/certificates.js) ----
+export const certificatesHeading = {
+  eyebrow: t("Chứng nhận", "Certificates"),
+  title: t("Niềm tin", "Trust that"),
+  accent: t("Tạo nên lựa chọn", "Shapes every choice"),
+  text: t(
+    "Sản xuất tại nhà máy đạt chuẩn GMP, có giấy tiếp nhận đăng ký bản công bố sản phẩm của Cục An toàn thực phẩm – Bộ Y tế.",
+    "Made in a GMP-certified factory, with a product declaration receipt from the Vietnam Food Administration – Ministry of Health.",
+  ),
+  view: t("Xem giấy", "View"),
+  reportsTitle: t("Phiếu kiểm nghiệm", "Test report"),
+  // Chỉ dùng số liệu có thật (vỏ hộp + hồ sơ PDF khách gửi) — không ghi số khách hàng
+  stats: [
+    { value: 30, suffix: "", label: t("viên / lọ Mayqueen Slim", "capsules per bottle") },
+    { value: 20, suffix: "", label: t("gói / hộp Yodetox Extra", "sachets per box") },
+    {
+      value: 9,
+      suffix: "",
+      label: t("phiếu kiểm nghiệm nguyên liệu", "raw-material test reports"),
+    },
+    { value: 100, suffix: "%", label: t("sản xuất tại Việt Nam", "made in Vietnam") },
+  ],
+};
+
+// ---- Khối 5 · Cảm nhận khách hàng (tiêu đề; thẻ ở data/testimonials.js) ----
+export const testimonialsHeading = {
+  title: t("Cảm nhận khách hàng", "Customer stories"),
+  text: t(
+    "Những chia sẻ về hành trình chăm sóc vóc dáng cùng Mayqueen.",
+    "Stories from women caring for their shape with Mayqueen.",
+  ),
+};
+
+// ---- Sống đẹp (blog) ----
+export const journalTeaser = {
+  eyebrow: t("Sống đẹp cùng Mayqueen", "Live well with Mayqueen"),
+  title: t("Sống đẹp", "Live well"),
+  accent: t("Cùng Mayqueen", "With Mayqueen"),
+  cta: t("Xem tất cả bài viết", "Read the journal"),
+};
+
+// ---- Dùng ở các trang khác (cửa hàng, sống đẹp) ----
 export const bestsellers = {
   eyebrow: t("Cửa hàng", "Shop"),
-  title: t("Sản phẩm được yêu thích", "Our bestsellers"),
+  title: t("Sản phẩm", "Our"),
+  accent: t("Mayqueen", "Products"),
   text: t(
     "Ba lựa chọn — một hành trình. Bắt đầu từ sản phẩm phù hợp với cơ thể bạn.",
     "Three choices, one journey. Start with what suits your body.",
   ),
 };
 
-// Ô tư vấn nằm trong lưới sản phẩm (thay cho "Take the quiz" của The Beauty Chef)
 export const shopPromo = {
   eyebrow: t("Chưa biết chọn gì?", "Not sure where to start?"),
   title: t("Nhận liệu trình cá nhân hoá miễn phí", "Get a free personalised ritual"),
   text: t(
-    "Chuyên viên phân tích thể trạng và gợi ý gói phù hợp trong 15 phút.",
-    "A coach assesses your needs and suggests the right pack within 15 minutes.",
+    "Chuyên viên phân tích thể trạng và gợi ý gói phù hợp.",
+    "A coach assesses your needs and suggests the right pack.",
   ),
   cta: t("Tư vấn 1:1 ngay", "Talk to a coach"),
-};
-
-export const testimonialsHeading = {
-  eyebrow: t("Đã thử & tin dùng", "Tried & tested"),
-  title: t("Hơn 2.000 khách hàng đã thay đổi", "2,000+ customers transformed"),
-  summary: t("từ 2.662 đánh giá", "from 2,662 reviews"),
-};
-
-export const statement = {
-  text: t(
-    "Vóc dáng đẹp không đến từ việc nhịn ăn — nó bắt đầu từ một cơ thể được nuôi dưỡng, thanh lọc và cân bằng mỗi ngày.",
-    "A beautiful shape doesn't come from starving — it begins with a body that is nourished, cleansed and balanced every single day.",
-  ),
-  author: t("— Triết lý Mayqueen", "— The Mayqueen philosophy"),
-};
-
-export const ritual = {
-  eyebrow: t("Liệu trình tác động kép", "The dual-action ritual"),
-  title: t("Sáng đốt mỡ.", "Burn by day."),
-  accent: t("Tối thanh lọc.", "Cleanse by night."),
-  text: t(
-    "Không chỉ giảm cân đơn thuần — liệu trình chú trọng thải độc từ bên trong để vóc dáng thon gọn đi cùng sức khoẻ bền vững.",
-    "More than weight loss — our ritual cleanses from within, so a slimmer shape comes with lasting health.",
-  ),
-  day: {
-    time: t("07:00 · Buổi sáng", "7:00 AM · Morning"),
-    name: "Mayqueen Slim",
-    text: t(
-      "1 viên trước ăn sáng 30 phút — kích hoạt chuyển hoá, kiểm soát cơn thèm ăn suốt ngày dài.",
-      "1 capsule 30 minutes before breakfast — fires up metabolism and keeps cravings in check all day.",
-    ),
-    image: P.mayqueen.floating,
-    path: "/san-pham/mayqueen-slim",
-  },
-  night: {
-    time: t("20:00 · Buổi tối", "8:00 PM · Evening"),
-    name: "Yodetox Extra",
-    text: t(
-      "1 gói sau ăn tối 1 giờ — thanh lọc hệ tiêu hoá, sáng dậy nhẹ bụng, da sáng khoẻ.",
-      "1 sachet an hour after dinner — cleanses digestion so you wake up lighter with brighter skin.",
-    ),
-    image: P.yodetox.garden,
-    path: "/san-pham/yodetox-extra",
-  },
-  cta: t("Chọn combo liệu trình", "Choose the ritual set"),
-  comboPath: "/san-pham/combo-sang-dot-toi-loc",
-};
-
-export const usp = {
-  eyebrow: t("Vì sao chọn Mayqueen", "Why Mayqueen"),
-  title: t(
-    "Wellness chuẩn D2C quốc tế, dành cho người Việt",
-    "Global D2C wellness, made for Vietnam",
-  ),
-  items: [
-    {
-      icon: "Globe2",
-      title: t("Chuẩn mô hình D2C Wellness", "Global D2C wellness standard"),
-      text: t(
-        "Học hỏi phong cách thương hiệu toàn cầu: mua sắm tiện lợi, câu chuyện cảm xúc và cẩm nang sống đẹp truyền cảm hứng.",
-        "Inspired by global brands: effortless shopping, heartfelt storytelling and an inspiring lifestyle journal.",
-      ),
-    },
-    {
-      icon: "BadgeCheck",
-      title: t("Bảo chứng B.O.T Việt Nam", "Backed by B.O.T Vietnam"),
-      text: t(
-        "Nguồn gốc rõ ràng, thành phần thảo mộc lành tính, đầy đủ giấy phép công bố an toàn theo quy chuẩn y tế.",
-        "Clear origin, gentle botanical ingredients and full safety licences under health regulations.",
-      ),
-    },
-    {
-      icon: "Sparkles",
-      title: t("Cơ chế tác động kép", "Dual-action mechanism"),
-      text: t(
-        "Không chỉ giảm cân — chú trọng thải độc từ bên trong, giúp vóc dáng thon gọn cùng sức khoẻ bền vững.",
-        "Not just weight loss — it detoxes from within for a slimmer shape and lasting health.",
-      ),
-    },
-  ],
-};
-
-export const journey = {
-  eyebrow: t("Hành trình 30 ngày", "Your 30-day journey"),
-  title: t("Cảm nhận thay đổi", "Feel the change,"),
-  accent: t("theo từng tuần.", "week by week."),
-  text: t(
-    "Một liệu trình — bốn cột mốc. Cơ thể nhẹ dần, vóc dáng gọn dần, năng lượng trở lại mỗi ngày.",
-    "One ritual, four milestones. Lighter, leaner and more energised — day by day.",
-  ),
-  stat: { value: "30", label: t("ngày · 1 liệu trình", "days · 1 ritual") },
-  steps: [
-    {
-      week: t("Tuần 1", "Week 1"),
-      title: t("Nhẹ bụng", "Lighter belly"),
-      text: t(
-        "Giảm đầy hơi, tiêu hoá êm hơn, ngủ ngon hơn.",
-        "Less bloating, smoother digestion, better sleep.",
-      ),
-    },
-    {
-      week: t("Tuần 2", "Week 2"),
-      title: t("Bớt thèm ăn", "Fewer cravings"),
-      text: t(
-        "Kiểm soát ăn vặt, cơ thể quen nhịp ăn uống mới.",
-        "Snacking under control, a new eating rhythm.",
-      ),
-    },
-    {
-      week: t("Tuần 3", "Week 3"),
-      title: t("Số đo thay đổi", "Inches drop"),
-      text: t(
-        "Vòng eo gọn dần, quần áo mặc vừa vặn hơn.",
-        "Your waist slims and clothes fit better.",
-      ),
-    },
-    {
-      week: t("Tuần 4", "Week 4"),
-      title: t("Rạng rỡ", "Radiant"),
-      text: t(
-        "Dáng gọn, da sáng, tràn đầy năng lượng.",
-        "Leaner shape, brighter skin, more energy.",
-      ),
-    },
-  ],
-  note: t(
-    "Kết quả có thể khác nhau tuỳ cơ địa và chế độ sinh hoạt.",
-    "Results may vary depending on body type and lifestyle.",
-  ),
-};
-
-export const trust = {
-  eyebrow: t("Bảo chứng uy tín", "Trusted quality"),
-  title: t("Chính hãng B.O.T Việt Nam", "Authentic B.O.T Vietnam"),
-  text: t(
-    "Mỗi sản phẩm Mayqueen đều có nguồn gốc xuất xứ rõ ràng, được kiểm nghiệm và công bố an toàn theo quy chuẩn của Bộ Y tế.",
-    "Every Mayqueen product has a clear origin and is tested and declared safe under Ministry of Health regulations.",
-  ),
-  certificates: [
-    {
-      icon: "FileCheck2",
-      title: t("Giấy công bố sản phẩm", "Product declaration"),
-      text: t("Tiếp nhận bởi Cục An toàn thực phẩm", "Received by the Food Safety Authority"),
-    },
-    {
-      icon: "Factory",
-      title: t("Nhà máy chuẩn GMP", "GMP-certified factory"),
-      text: t("Sản xuất theo tiêu chuẩn thực hành tốt", "Made under Good Manufacturing Practice"),
-    },
-    {
-      icon: "FlaskConical",
-      title: t("Kiểm nghiệm an toàn", "Safety tested"),
-      text: t("Phiếu kiểm nghiệm cho từng lô hàng", "Test reports for every batch"),
-    },
-    {
-      icon: "ShieldCheck",
-      title: t("Tem chống hàng giả", "Anti-counterfeit seal"),
-      text: t("Quét mã xác thực chính hãng", "Scan to verify authenticity"),
-    },
-  ],
-};
-
-export const difference = [
-  { icon: "Leaf", title: t("Thảo mộc tự nhiên", "Natural botanicals") },
-  { icon: "HeartPulse", title: t("Lành tính, an toàn", "Gentle & safe") },
-  { icon: "Microscope", title: t("Nghiên cứu khoa học", "Science-backed") },
-  { icon: "Truck", title: t("Giao nhanh, kiểm tra hàng", "Fast delivery, COD") },
-];
-
-export const journalTeaser = {
-  eyebrow: t("Sống đẹp cùng Mayqueen", "Live well with Mayqueen"),
-  title: t("Cẩm nang sống xanh, ăn sạch, dáng xinh", "Your guide to clean living and a lean body"),
-  cta: t("Xem tất cả bài viết", "Read the journal"),
 };
 
 export const socialFeed = {

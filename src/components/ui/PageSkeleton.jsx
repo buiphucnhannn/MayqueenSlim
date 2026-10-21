@@ -31,7 +31,7 @@ export default function PageSkeleton({ variant = "text" }) {
   if (variant === "article")
     return (
       <div aria-hidden="true">
-        <Container className="flex max-w-4xl flex-col items-center gap-4 py-14">
+        <Container className="flex max-w-4xl flex-col items-center gap-4 pt-32 pb-14">
           <div className={`${block} h-5 w-32 rounded-full`} />
           <div className={`${block} h-10 w-4/5`} />
           <div className={`${block} h-4 w-48`} />
@@ -43,7 +43,7 @@ export default function PageSkeleton({ variant = "text" }) {
     );
 
   return (
-    <Container wide className="space-y-4 py-14" aria-hidden="true">
+    <Container wide className="space-y-4 pt-32 pb-14" aria-hidden="true">
       <div className={`${block} h-3 w-32`} />
       <div className={`${block} h-10 w-1/2`} />
       <div className={`${block} h-32 w-full max-w-3xl`} />

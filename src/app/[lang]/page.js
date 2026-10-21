@@ -1,31 +1,25 @@
-import Bestsellers from "@/components/sections/Bestsellers";
-import FaqSection from "@/components/sections/FaqSection";
-import HeroSection from "@/components/sections/HeroSection";
+import BrandStory from "@/components/sections/BrandStory";
+import CertificatesSection from "@/components/sections/CertificatesSection";
+import HeroVideo from "@/components/sections/HeroVideo";
+import IngredientLayers from "@/components/sections/IngredientLayers";
 import JournalTeaser from "@/components/sections/JournalTeaser";
-import JourneySection from "@/components/sections/JourneySection";
-import RitualSection from "@/components/sections/RitualSection";
-import SocialFeed from "@/components/sections/SocialFeed";
-import StatementSection from "@/components/sections/StatementSection";
-import StorySection from "@/components/sections/StorySection";
-import TestimonialsSection from "@/components/sections/TestimonialsSection";
-import TrustSection from "@/components/sections/TrustSection";
-import Container from "@/components/ui/Container";
-import SectionHeading from "@/components/ui/SectionHeading";
+import ProductShowcase from "@/components/sections/ProductShowcase";
+import TestimonialSlider from "@/components/sections/TestimonialSlider";
+import Transformation from "@/components/sections/Transformation";
 import { siteConfig } from "@/config/site";
 import { articleCategories, articles } from "@/data/articles";
-import { faqs } from "@/data/faqs";
+import { certificates, testReports } from "@/data/certificates";
 import * as home from "@/data/home";
-import { socialPosts } from "@/data/social";
-import { categories, products } from "@/data/products";
+import { ingredientTabs } from "@/data/ingredients";
+import { products } from "@/data/products";
 import { testimonials } from "@/data/testimonials";
 import { ui } from "@/data/ui";
 import { localize } from "@/i18n";
 
 /**
- * Trang chủ — thứ tự section:
- * Hero (slider toàn màn hình) → Sản phẩm bán chạy → Tuyên ngôn
- * → Liệu trình Sáng/Tối → Câu chuyện & USP → Hành trình 30 ngày → Đánh giá → Bảo chứng B.O.T
- * → Sống đẹp → Cộng đồng → Hỏi đáp. (Tư vấn: popup ConsultModal, mở từ mọi nút data-consult)
+ * Trang chủ v2 — kể chuyện theo phong cách web mẫu Kobler, mỗi khối gần trọn màn hình:
+ * 1 Video TVC → đoạn "biến hình" → 2 Câu chuyện thương hiệu → Sản phẩm (combo Sáng – Tối)
+ * → 3 Thành phần (tách lớp) → 4 Chứng nhận → 5 Cảm nhận → Sống đẹp → Tư vấn 1:1 → 6 Chân trang (layout).
  */
 export default async function HomePage({ params }) {
   const { lang } = await params;
@@ -35,45 +29,42 @@ export default async function HomePage({ params }) {
       ...home,
       ui,
       products,
-      categories,
       testimonials,
-      faqs,
       articles,
       articleCategories,
-      socialPosts,
+      certificates,
+      testReports,
+      ingredientTabs,
     },
     lang,
   );
-  const productLabels = { ...L.ui, ...L.ui.product };
   const categoryLabels = Object.fromEntries(L.articleCategories.map((c) => [c.id, c.label]));
 
   return (
     <>
-      <HeroSection lang={lang} slides={L.hero.slides} />
-
-      <section id="san-pham" className="bg-pearl scroll-mt-20 py-16 lg:py-20">
-        <Container wide>
-          <SectionHeading
-            eyebrow={L.bestsellers.eyebrow}
-            title={L.bestsellers.title}
-            text={L.bestsellers.text}
-            className="mb-8"
-          />
-          <Bestsellers
-            lang={lang}
-            products={L.products}
-            categories={L.categories}
-            labels={productLabels}
-            promo={L.shopPromo}
-          />
-        </Container>
-      </section>
-      <StatementSection data={L.statement} />
-      <RitualSection lang={lang} data={L.ritual} />
-      <StorySection data={L.usp} />
-      <JourneySection data={L.journey} />
-      <TestimonialsSection data={L.testimonialsHeading} reviews={L.testimonials} />
-      <TrustSection data={L.trust} difference={L.difference} />
+      <HeroVideo
+        lang={lang}
+        data={L.hero}
+        video={site.heroVideo}
+        poster={site.heroPoster}
+        legalNote={L.legalNote}
+      />
+      <Transformation data={L.transformation} />
+      <BrandStory lang={lang} data={L.story} />
+      <ProductShowcase
+        lang={lang}
+        data={L.showcase}
+        products={L.products}
+        labels={{ ...L.ui, ...L.ui.product }}
+      />
+      <IngredientLayers lang={lang} data={L.ingredientsHeading} tabs={L.ingredientTabs} />
+      <CertificatesSection
+        data={L.certificatesHeading}
+        certificates={L.certificates}
+        reports={L.testReports}
+        labels={{ view: L.ui.view }}
+      />
+      <TestimonialSlider data={L.testimonialsHeading} reviews={L.testimonials} />
       <JournalTeaser
         lang={lang}
         data={L.journalTeaser}
@@ -81,8 +72,6 @@ export default async function HomePage({ params }) {
         categoryLabels={categoryLabels}
         labels={L.ui}
       />
-      <SocialFeed data={L.socialFeed} posts={L.socialPosts} site={site} />
-      <FaqSection data={L.faqHeading} faqs={L.faqs} phone={site.phone} phoneRaw={site.phoneRaw} />
     </>
   );
 }

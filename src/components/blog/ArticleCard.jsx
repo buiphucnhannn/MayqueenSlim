@@ -29,25 +29,27 @@ export default function ArticleCard({
           className,
         )}
       >
-        <div className="relative aspect-[4/5] h-full sm:aspect-[16/11] lg:aspect-auto">
+        <div className="relative aspect-[4/5] h-full sm:aspect-[16/9] lg:aspect-auto">
           <Image
-            src={article.cover}
+            src={article.banner ?? article.cover}
             alt={article.title}
             fill
-            sizes="(min-width: 1024px) 55vw, 92vw"
-            className="object-cover opacity-90 transition duration-[1.4s] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
+            quality={90}
+            sizes="100vw"
+            className="object-cover object-right transition duration-[1.4s] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
           />
-          <div className="from-forest-deep/90 via-forest-deep/20 absolute inset-0 bg-gradient-to-t to-transparent" />
+          <div className="from-forest-deep/90 via-forest-deep/30 lg:via-forest-deep/40 absolute inset-0 bg-gradient-to-t to-transparent lg:bg-gradient-to-r" />
         </div>
-        <div className="text-pearl absolute inset-x-0 bottom-0 p-7 sm:p-10">
-          <span className="bg-leaf text-forest rounded-full px-3 py-1 text-[10px] font-bold tracking-[0.16em] uppercase">
+        {/* mobile: chữ ở đáy; desktop: căn giữa theo chiều cao, nằm gọn nửa trái (vùng nền tối) */}
+        <div className="text-pearl absolute inset-x-0 bottom-0 p-7 sm:p-10 lg:inset-y-0 lg:right-auto lg:flex lg:w-[52%] lg:flex-col lg:justify-center lg:py-12 lg:pr-0 lg:pl-14 xl:pl-16">
+          <span className="bg-leaf text-forest self-start rounded-full px-3 py-1 text-[10px] font-bold tracking-[0.16em] uppercase">
             {categoryLabel}
           </span>
-          <h3 className="mt-4 max-w-xl font-serif text-2xl leading-tight sm:text-3xl">
+          <h3 className="mt-4 max-w-xl font-serif text-2xl leading-tight text-balance sm:text-3xl lg:text-[34px]">
             {article.title}
           </h3>
           <p className="text-pearl/75 mt-3 line-clamp-2 max-w-lg text-sm">{article.excerpt}</p>
-          <span className="text-leaf mt-5 inline-flex items-center gap-2 text-sm font-semibold">
+          <span className="text-leaf mt-6 inline-flex items-center gap-2 self-start text-sm font-semibold">
             {labels.readMore}{" "}
             <ArrowUpRight className="size-4 transition group-hover:rotate-45" aria-hidden="true" />
           </span>

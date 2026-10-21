@@ -4,6 +4,8 @@
  *   brand/     logo B.O.T Việt Nam (bản gốc + PNG nền trong suốt: dọc, ngang, trắng, dấu B)
  *   products/  ảnh sản phẩm chất lượng cao (2000px), chia theo sản phẩm
  *   social/    ảnh bài đăng Facebook (206px) — chỉ dùng ở kích thước nhỏ (feed, thumbnail)
+ *   video/     khung hình trích từ video minh hoạ (AI) — poster video, đoạn "biến hình", ảnh mẫu cảm nhận
+ *   certificates/ trang giấy chứng nhận trích từ docs/MAYQUEEN SLIM(certificate).pdf
  *   backgrounds/ ảnh nền trang trí (Unsplash License — miễn phí, không bắt buộc ghi công; ghi lại để minh bạch)
  */
 export const brand = {
@@ -28,13 +30,49 @@ export const backgrounds = {
   greenSmoothie: "/images/backgrounds/green-smoothie.jpg",
 };
 
+// Khung hình từ video minh hoạ (public/videos/mayqueen_video.mp4) — đã cắt bỏ dấu ✦ của công cụ AI
+export const videoFrames = {
+  poster: "/images/video/poster.jpg",
+  portrait: "/images/video/portrait.jpg",
+  bloated: "/images/video/bloated.jpg",
+  mirrorThinking: "/images/video/mirror-thinking.jpg",
+  morning: "/images/video/morning.jpg",
+  park: "/images/video/park.jpg",
+  evening: "/images/video/evening.jpg",
+  confident: "/images/video/confident.jpg",
+  productShot: "/images/story/brand-story-hero.jpg",
+};
+
+export const certificateImages = {
+  congBo: "/images/certificates/cong-bo-6926-2021.jpg",
+  gmp: "/images/certificates/gmp-goldcare.jpg",
+  iso: "/images/certificates/iso-22000-goldcare.jpg",
+  coa: Array.from(
+    { length: 9 },
+    (_, i) => `/images/certificates/coa-${String(i + 1).padStart(2, "0")}.jpg`,
+  ),
+};
+
+export const heroImages = {
+  mayqueen: "/images/hero/hero-mayqueen-slim-v4.jpg",
+  yodetox: "/images/hero/hero-yodetox-extra-v4.jpg",
+  // bản nền tối, sản phẩm lệch phải (2752×1536) — banner trang con, bài viết nổi bật
+  mayqueenDark: "/images/hero/hero-mayqueen-slim.jpg",
+  yodetoxDark: "/images/hero/hero-yodetox-extra.jpg",
+  // bản mở rộng nền tối bên trái (3300×1228) — thẻ bài viết nổi bật, chữ nằm bên trái
+  mayqueenWide: "/images/hero/banner-mayqueen-wide.jpg",
+  yodetoxWide: "/images/hero/banner-yodetox-wide.jpg",
+};
+
 export const productImages = {
   mayqueen: {
+    hero: heroImages.mayqueen,
     sunlight: "/images/products/mayqueen-slim/box-sunlight.jpg",
     podium: "/images/products/mayqueen-slim/podium.jpg",
     floating: "/images/products/mayqueen-slim/floating.jpg",
   },
   yodetox: {
+    hero: heroImages.yodetox,
     garden: "/images/products/yodetox/garden.jpg",
     giftBox: "/images/products/yodetox/gift-box.jpg",
   },

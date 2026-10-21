@@ -1,8 +1,10 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { usePresence } from "@/hooks/usePresence";
 import { lockScroll } from "@/lib/scroll";
 
 /**
@@ -11,10 +13,15 @@ import { lockScroll } from "@/lib/scroll";
  * items: [{ src, caption, text }]; index: số | null; onChange(i); onClose().
  * link: { href, label } — ví dụ "Xem trên Facebook".
  */
-export default function Lightbox({ items, index, onChange, onClose, link }) {
+// document: true → khung lớn, ảnh hiển thị trọn (object-contain) — dùng cho giấy chứng nhận dọc/ngang
+export default function Lightbox({ items, index, onChange, onClose, link, document = false }) {
   const open = index !== null && index !== undefined;
   const total = items.length;
   const touchX = useRef(null);
+  const { mounted, closing } = usePresence(open, 300);
+  // giữ ảnh cuối cùng để hiển thị trong lúc chạy hiệu ứng đóng
+  const [shown, setShown] = useState(index);
+  if (open && index !== shown) setShown(index);
 
   const prev = useCallback(() => onChange((index - 1 + total) % total), [index, total, onChange]);
   const next = useCallback(() => onChange((index + 1) % total), [index, total, onChange]);
@@ -34,21 +41,23 @@ export default function Lightbox({ items, index, onChange, onClose, link }) {
     };
   }, [open, onClose, prev, next]);
 
-  if (!open) return null;
-  const item = items[index];
+  if (!mounted) return null;
+  const item = items[shown] ?? items[0];
+  if (!item) return null;
   const navBtn =
     "grid size-12 place-items-center rounded-full bg-pearl/10 text-pearl transition hover:bg-pearl/25";
 
-  return (
+  // Gắn thẳng vào <body>: không bị khung cha có transform (hiệu ứng reveal, sticky…) giam vị trí fixed
+  return createPortal(
     <div
       role="dialog"
       aria-modal="true"
       aria-label={item.caption}
       onClick={onClose}
-      className="bg-forest-deep/95 fixed inset-0 z-[160] flex [animation:fadeIn_.3s_ease-out_both] flex-col items-center justify-center px-4"
+      className={`bg-forest-deep/95 fixed inset-0 z-[160] flex flex-col items-center justify-center px-4 backdrop-blur-sm ${closing ? "pointer-events-none [animation:fadeOut_.3s_ease-in_both]" : "[animation:fadeIn_.35s_ease-out_both]"}`}
     >
       <p className="text-pearl/60 absolute top-5 left-5 text-xs tracking-[0.3em] tabular-nums">
-        {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+        {String(shown + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
       </p>
       <button
         type="button"
@@ -97,15 +106,15 @@ export default function Lightbox({ items, index, onChange, onClose, link }) {
           touchX.current = null;
           if (Math.abs(dx) > 40) (dx < 0 ? next : prev)();
         }}
-        className="shadow-soft relative aspect-square w-[min(88vw,58vh,460px)] [animation:sheetIn_.45s_cubic-bezier(.22,1,.36,1)_both] touch-pan-y overflow-hidden rounded-2xl select-none"
+        className={`shadow-soft relative [animation:lbIn_.55s_cubic-bezier(.22,1,.36,1)_both] touch-pan-y overflow-hidden select-none ${document ? "h-[min(72vh,900px)] w-[min(92vw,1000px)] rounded-md" : "aspect-square w-[min(88vw,70vh,680px)] rounded-2xl"}`}
       >
         <Image
           src={item.src}
           alt={item.caption}
           fill
-          sizes="460px"
+          sizes={document ? "1000px" : "680px"}
           quality={90}
-          className="object-cover"
+          className={document ? "object-contain" : "object-cover"}
         />
       </div>
 
@@ -140,6 +149,7 @@ export default function Lightbox({ items, index, onChange, onClose, link }) {
           </button>
         </div>
       )}
-    </div>
+    </div>,
+    window.document.body, // (prop "document" che mất biến toàn cục cùng tên)
   );
 }

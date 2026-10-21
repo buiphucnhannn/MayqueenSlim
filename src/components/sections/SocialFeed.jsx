@@ -12,7 +12,7 @@ export default function SocialFeed({ data, posts, site }) {
   ];
 
   return (
-    <section className="bg-sage-50 overflow-hidden py-16 lg:py-20">
+    <section className="bg-sage-50 section-y overflow-hidden">
       <Container
         wide
         className="flex flex-col items-center justify-between gap-6 text-center lg:flex-row lg:text-left"

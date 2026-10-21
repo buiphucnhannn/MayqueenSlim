@@ -6,6 +6,9 @@ export const siteConfig = {
   legalName: "MayqueenSlim Official",
   parentBrand: "B.O.T Việt Nam",
   tagline: t("Thon gọn từ bên trong", "Slim from within"),
+  // Tiêu đề tab trang chủ: "Mayqueen Slim | …" (tên thương hiệu đứng đầu — tab bị cắt vẫn đọc được)
+  homeTitle: t("Sáng đốt mỡ – Tối thanh lọc", "Burn by Day, Cleanse by Night"),
+  notFoundTitle: t("Không tìm thấy trang", "Page not found"),
   description: t(
     "Mayqueen Slim & Yodetox — giải pháp giữ dáng từ thảo mộc thiên nhiên: sáng hỗ trợ chuyển hoá mỡ thừa, tối thanh lọc cơ thể. Chính hãng B.O.T Việt Nam.",
     "Mayqueen Slim & Yodetox — herbal body-care rituals: support fat metabolism by morning, gently detox by night. Authentic B.O.T Vietnam.",
@@ -39,6 +42,17 @@ export const siteConfig = {
   zalo: "https://zalo.me/0395057364",
   // TODO: thay bằng link TikTok thật của shop
   tiktok: "https://www.tiktok.com/",
+  // ---- Video TVC đầu trang: THAY FILE TẠI ĐÂY (đặt video mới vào public/videos/ rồi sửa 2 dòng dưới) ----
+  // Hiện là video dựng tạm bằng AI (chỉ để hình dung) — khi có TVC thật chỉ cần thay file.
+  heroVideo: "/videos/mayqueen_video.mp4",
+  heroPoster: "/images/video/poster.jpg",
+  // ---- Thông tin pháp lý (CHỮ MẪU — chờ sale gửi bản thật, không tự điền) ----
+  company: {
+    name: t("[Tên công ty]", "[Company name]"),
+    taxId: "[MST]",
+    address: t("[Địa chỉ trụ sở]", "[Head office address]"),
+    email: "[Email]",
+  },
   freeShipThreshold: 500000,
   shippingFee: 30000,
 };

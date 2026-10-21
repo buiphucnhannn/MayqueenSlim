@@ -38,24 +38,11 @@ export const products = [
       t("Hỗ trợ hạn chế tích mỡ mới", "Helps limit new fat storage"),
       t("Không gây mệt mỏi, không mất nước", "No fatigue, no dehydration"),
     ],
-    ingredients: [
-      {
-        name: t("Garcinia Cambogia (quả bứa)", "Garcinia Cambogia"),
-        note: t("Hỗ trợ hạn chế tích mỡ, giảm thèm ăn", "Helps limit fat storage & appetite"),
-      },
-      {
-        name: t("Chiết xuất trà xanh", "Green tea extract"),
-        note: t("Giàu EGCG, hỗ trợ sinh nhiệt", "Rich in EGCG, supports thermogenesis"),
-      },
-      {
-        name: t("Cà phê xanh", "Green coffee bean"),
-        note: t("Hỗ trợ chuyển hoá đường & mỡ", "Supports sugar & fat metabolism"),
-      },
-      {
-        name: t("Gạo lứt đỏ", "Red brown rice"),
-        note: t("Bổ sung chất xơ, no lâu", "Fibre for lasting fullness"),
-      },
-    ],
+    // CHỮ MẪU — điền theo bảng thành phần trên vỏ hộp / hồ sơ công bố (không tự bịa)
+    ingredients: [1, 2, 3, 4].map((n) => ({
+      name: t(`[Thành phần ${n}]`, `[Ingredient ${n}]`),
+      note: t("[Công dụng]", "[Benefit]"),
+    })),
     usage: t(
       "Uống 1 viên mỗi sáng, trước bữa sáng 30 phút với nhiều nước. Dùng liệu trình tối thiểu 30 ngày để thấy hiệu quả rõ rệt.",
       "Take 1 capsule every morning, 30 minutes before breakfast with plenty of water. Use for at least 30 days for visible results.",
@@ -109,24 +96,11 @@ export const products = [
       t("Hỗ trợ tiêu hoá, nhuận tràng dịu nhẹ", "Gentle digestive support"),
       t("Giúp làn da sáng khoẻ từ bên trong", "Helps skin glow from within"),
     ],
-    ingredients: [
-      {
-        name: t("Chất xơ Inulin", "Inulin fibre"),
-        note: t("Nuôi lợi khuẩn đường ruột", "Feeds healthy gut bacteria"),
-      },
-      {
-        name: t("Diếp cá", "Houttuynia (fish mint)"),
-        note: t("Thanh nhiệt, mát gan", "Cooling, supports the liver"),
-      },
-      {
-        name: t("Atiso", "Artichoke"),
-        note: t("Hỗ trợ chức năng gan, tiêu hoá", "Supports liver & digestion"),
-      },
-      {
-        name: t("Trà xanh", "Green tea"),
-        note: t("Chống oxy hoá, thanh lọc", "Antioxidant, cleansing"),
-      },
-    ],
+    // CHỮ MẪU — điền theo bảng thành phần trên vỏ hộp / hồ sơ công bố (không tự bịa)
+    ingredients: [1, 2, 3, 4].map((n) => ({
+      name: t(`[Thành phần ${n}]`, `[Ingredient ${n}]`),
+      note: t("[Công dụng]", "[Benefit]"),
+    })),
     usage: t(
       "Pha 1 gói với 150–200ml nước ấm hoặc nước mát, uống vào buổi tối sau ăn 1 giờ. Dùng 3–5 lần/tuần hoặc theo hướng dẫn chuyên viên.",
       "Mix 1 sachet with 150–200ml of warm or cool water; drink in the evening, 1 hour after dinner. Use 3–5 times a week or as advised.",

@@ -5,6 +5,7 @@ import SocialFeed from "@/components/sections/SocialFeed";
 import Container from "@/components/ui/Container";
 import { siteConfig } from "@/config/site";
 import { articleCategories, articles } from "@/data/articles";
+import { backgrounds } from "@/data/images";
 import { socialFeed as socialHeading } from "@/data/home";
 import { socialPosts } from "@/data/social";
 import { ui } from "@/data/ui";
@@ -24,7 +25,7 @@ export async function generateMetadata({ params }) {
   const { lang } = await params;
   const c = localize(copy, lang);
   return {
-    title: `${c.title} ${c.accent}`,
+    title: localize(t("Sống đẹp", "Journal"), lang),
     description: c.text,
     alternates: {
       canonical: href(lang, "/song-dep"),
@@ -43,6 +44,7 @@ export default async function JournalPage({ params }) {
   return (
     <>
       <PageHero
+        image={backgrounds.airyLeaves}
         crumbs={[
           { label: L.ui.home, href: href(lang, "/") },
           { label: `${L.copy.title} ${L.copy.accent}` },
@@ -52,7 +54,7 @@ export default async function JournalPage({ params }) {
         accent={L.copy.accent}
         text={L.copy.text}
       />
-      <section className="bg-pearl py-14 lg:py-20">
+      <section className="bg-pearl pt-10 pb-16 sm:pt-12 sm:pb-20 lg:pt-14 lg:pb-24">
         <Container wide>
           <div className="reveal" data-reveal="scale">
             <ArticleCard

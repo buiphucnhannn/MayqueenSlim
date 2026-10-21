@@ -1,5 +1,5 @@
 import { t } from "@/i18n";
-import { productImages as P, social as S } from "./images";
+import { heroImages as H, productImages as P, social as S } from "./images";
 
 /**
  * Chuyên mục "Sống đẹp cùng Mayqueen" — cẩm nang lifestyle, thực đơn Eat Clean, công thức detox.
@@ -20,6 +20,7 @@ export const articles = [
     date: "2026-10-12",
     readTime: 4,
     cover: P.yodetox.garden,
+    banner: H.yodetoxWide, // ảnh ngang nét cho thẻ bài nổi bật
     thumb: S.nguoiKhoe,
     title: t(
       "5 công thức nước detox buổi sáng cho làn da căng mọng",
@@ -92,6 +93,7 @@ export const articles = [
     date: "2026-10-05",
     readTime: 6,
     cover: P.mayqueen.podium,
+    banner: H.mayqueenWide,
     thumb: S.congThuc30Ngay,
     title: t(
       "Thực đơn Eat Clean 7 ngày cho dân văn phòng bận rộn",
@@ -169,6 +171,7 @@ export const articles = [
     date: "2026-09-28",
     readTime: 3,
     cover: P.mayqueen.floating,
+    banner: H.mayqueenWide,
     thumb: S.cheNguConDoi,
     title: t(
       "Bí quyết chế ngự “cơn đói giả” — thủ phạm khiến bạn khó giảm cân",
@@ -237,6 +240,7 @@ export const articles = [
     date: "2026-09-20",
     readTime: 5,
     cover: P.mayqueen.sunlight,
+    banner: H.mayqueenWide,
     thumb: S.noiKhongTangCan,
     title: t(
       "Vì sao bạn tăng cân lại sau khi giảm? Nói KHÔNG với hiệu ứng yo-yo",
@@ -291,6 +295,7 @@ export const articles = [
     date: "2026-09-12",
     readTime: 3,
     cover: P.yodetox.giftBox,
+    banner: H.yodetoxWide, // ảnh ngang nét cho thẻ bài nổi bật
     thumb: S.tuiXach,
     title: t(
       "Bí quyết giữ dáng nằm gọn trong túi xách của nàng công sở",
@@ -337,6 +342,7 @@ export const articles = [
     date: "2026-09-03",
     readTime: 4,
     cover: P.yodetox.garden,
+    banner: H.yodetoxWide, // ảnh ngang nét cho thẻ bài nổi bật
     thumb: S.dotCalo,
     title: t(
       "Thói quen buổi tối giúp đốt calo thụ động khi ngủ",

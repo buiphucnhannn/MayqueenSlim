@@ -17,7 +17,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { lang, slug } = await params;
   const p = getPolicy(slug);
-  if (!p) return {};
+  if (!p) return { title: localize(siteConfig.notFoundTitle, lang) };
   return {
     title: localize(p.title, lang),
     alternates: { canonical: href(lang, `/chinh-sach/${slug}`) },
@@ -44,7 +44,7 @@ async function PolicyContent({ params }) {
         ]}
         title={p.title}
       />
-      <section className="bg-pearl py-14 lg:py-20">
+      <section className="bg-pearl section-y">
         <Container wide className="grid gap-12 lg:grid-cols-[280px_1fr]">
           <nav aria-label={L.footer.policies} className="lg:sticky lg:top-28 lg:self-start">
             <ul className="reveal space-y-1">

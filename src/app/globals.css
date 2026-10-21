@@ -1,12 +1,13 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------------------
- * Design tokens — Mayqueen Slim: Clean & Vibrant D2C Wellness.
- * Xanh lá thảo mộc / sage (đồng bộ vỏ hộp Mayqueen Slim & Yodetox) + nền trắng ngọc trai / be kem.
+ * Design tokens — Mayqueen Slim v2 (phong cách web mẫu Kobler: kể chuyện, sang trọng).
+ * Giữ nhận diện: xanh thảo mộc / sage + nền trắng ngọc trai, be kem; khối nền tối = xanh rêu đậm.
+ * Tiêu đề: serif Cormorant Garamond IN HOA, dòng 2 màu nhấn · Nội dung: Be Vietnam Pro.
  * ------------------------------------------------------------------------- */
 @theme inline {
   --font-sans: var(--font-be-vietnam), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-serif: var(--font-cormorant), Georgia, "Times New Roman", serif;
 }
 
 @theme {
@@ -14,6 +15,9 @@
   --color-pearl: #fffdf8;
   --color-cream: #f8f5ec;
   --color-sand: #efe9da;
+  /* be ấm kiểu Kobler cho khối sáng */
+  --color-linen: #f4f1ea;
+  --color-stone: #e6dfd1;
 
   /* xanh thảo mộc */
   --color-sage-50: #f4f7ee;
@@ -34,6 +38,8 @@
   /* xanh rừng đậm: chữ logo, nền tối */
   --color-forest: #1e3a28;
   --color-forest-deep: #142a1c;
+  /* nền tối sâu nhất (khối sang, footer) */
+  --color-moss: #0f1f15;
 
   /* mực */
   --color-ink: #1c2a21;
@@ -91,18 +97,18 @@
   }
 }
 
-/* --chrome = thanh thông báo (36px) + header (64px | 80px) → hero cao đúng phần còn lại của màn hình */
+/* --chrome = chiều cao header (64px | 96px). Header cố định trong suốt đè lên hero. */
 html {
   -webkit-text-size-adjust: 100%;
   /* cùng màu body → lúc chuyển trang / cuộn quá đà không lộ nền trắng */
   background-color: var(--color-pearl);
-  --chrome: 100px;
+  --chrome: 64px;
   /* "Một màn hình" có giới hạn: thu nhỏ trình duyệt (zoom 50–75%) không làm section phình khổng lồ */
   --screen: min(100svh, 1000px);
 }
 @media (min-width: 1024px) {
   html {
-    --chrome: 116px;
+    --chrome: 96px;
   }
 }
 
@@ -142,6 +148,17 @@ html.lenis body {
 @utility eyebrow {
   @apply text-sage-600 text-[11px] font-semibold tracking-[0.28em] uppercase;
 }
+/* Tiêu đề khối kiểu Kobler: serif IN HOA, dòng thứ 2 bọc <span class="accent"> */
+@utility h-lux {
+  @apply text-forest font-serif leading-[1.12] font-medium tracking-[0.01em] text-balance uppercase;
+  & .accent {
+    @apply text-sage-500 block;
+  }
+}
+/* Nút mũi tên tròn kiểu Kobler: chữ in hoa + vòng tròn viền có mũi tên */
+@utility link-circle {
+  @apply inline-flex items-center gap-3 text-[12.5px] font-semibold tracking-[0.12em] uppercase transition-colors;
+}
 @utility h-display {
   @apply text-forest font-serif leading-[1.05] font-normal tracking-[-0.02em];
 }
@@ -152,10 +169,42 @@ html.lenis body {
 @utility glow {
   background: radial-gradient(closest-side, currentColor, transparent);
 }
+/* Ảnh/video nền tràn ngang: tối đa 1920px, căn giữa; màn rất rộng (hoặc thu nhỏ trình duyệt) thì hai mép
+   mờ dần vào màu nền section → ảnh không bị phóng to/cắt méo. Dùng cho phần tử absolute có left/right = 0. */
+@utility media-cap {
+  margin-inline: auto;
+  max-width: 1920px;
+  @media (min-width: 1921px) {
+    mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  }
+}
+/* Khoảng cách dọc CHUẨN cho mọi section (px cố định → thu/phóng trình duyệt không làm phình): 64 / 80 / 96 */
+@utility section-y {
+  @apply py-16 sm:py-20 lg:py-24;
+}
 @utility no-scrollbar {
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
+  }
+}
+/* Dải thẻ trượt ngang: điện thoại vuốt native; máy có chuột KHÔNG cho con lăn cuộn bên trong
+   (overflow hidden — mũi tên vẫn scrollTo được) → cuộn trang qua dải thẻ luôn do Lenis xử lý, không giật. */
+@layer components {
+  .slider-track {
+    display: flex;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .slider-track::-webkit-scrollbar {
+    display: none;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .slider-track {
+      overflow-x: hidden;
+    }
   }
 }
 
@@ -170,8 +219,16 @@ html.lenis body {
 .reveal[data-reveal="right"] {
   transform: translateX(36px);
 }
+.reveal[data-reveal="fade"] {
+  transform: none;
+}
 .reveal[data-reveal="scale"] {
   transform: scale(0.94);
+}
+/* ảnh phóng to chậm rồi về 1:1 khi cuộn tới (phần tử cha cần overflow-hidden) */
+.reveal[data-reveal="zoom"] {
+  opacity: 1;
+  transform: scale(1.18);
 }
 .reveal[data-reveal="clip"] {
   transform: none;
@@ -239,6 +296,50 @@ main.page-enter {
   }
   to {
     opacity: 1;
+  }
+}
+@keyframes lbIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes searchIn {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes searchOut {
+  from {
+    transform: none;
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes sheetOut {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
   }
 }
 @keyframes sheetIn {

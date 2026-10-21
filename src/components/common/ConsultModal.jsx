@@ -6,6 +6,7 @@ import { Check, Phone, X } from "lucide-react";
 import ConsultForm from "@/components/forms/ConsultForm";
 import { MessengerIcon, ZaloIcon } from "@/components/ui/BrandIcons";
 import { brand, productImages } from "@/data/images";
+import { usePresence } from "@/hooks/usePresence";
 import { lockScroll } from "@/lib/scroll";
 
 /**
@@ -18,6 +19,7 @@ export default function ConsultModal({ labels, formLabels, site }) {
   // key tăng mỗi lần mở → form làm mới (xoá trạng thái "đã gửi" của lần trước)
   const [session, setSession] = useState(0);
   const close = useCallback(() => setOpen(false), []);
+  const { mounted, closing } = usePresence(open, 380);
 
   useEffect(() => {
     const onClick = (e) => {
@@ -41,7 +43,7 @@ export default function ConsultModal({ labels, formLabels, site }) {
     };
   }, [open, close]);
 
-  if (!open) return null;
+  if (!mounted) return null;
 
   const quick = [
     { href: site.messenger, label: "Messenger", Icon: MessengerIcon, ext: true },
@@ -51,24 +53,28 @@ export default function ConsultModal({ labels, formLabels, site }) {
 
   return (
     <div
-      className="fixed inset-0 z-[150] flex items-center justify-center p-3 sm:p-6"
+      className={`fixed inset-0 z-[150] flex items-center justify-center p-3 sm:p-6 ${closing ? "pointer-events-none" : ""}`}
       role="dialog"
       aria-modal="true"
       aria-label={labels.title}
     >
       <div
-        className="bg-forest-deep/60 absolute inset-0 [animation:fadeIn_.4s_ease-out_both]"
+        className={`bg-forest-deep/60 absolute inset-0 backdrop-blur-[2px] ${closing ? "[animation:fadeOut_.38s_ease-in_both]" : "[animation:fadeIn_.4s_ease-out_both]"}`}
         onClick={close}
       />
 
-      <div className="bg-pearl shadow-soft relative grid max-h-[calc(100svh-24px)] w-full max-w-[920px] [animation:sheetIn_.55s_cubic-bezier(.22,1,.36,1)_both] overflow-hidden rounded-[20px] lg:grid-cols-[0.42fr_0.58fr]">
+      <div
+        className={`bg-pearl shadow-soft relative grid max-h-[calc(100svh-24px)] w-full max-w-[920px] overflow-hidden rounded-[20px] lg:grid-cols-[0.42fr_0.58fr] ${closing ? "[animation:sheetOut_.36s_cubic-bezier(.4,0,1,1)_both]" : "[animation:sheetIn_.6s_cubic-bezier(.22,1,.36,1)_both]"}`}
+      >
         {/* Cột ảnh (desktop) */}
         <div className="relative hidden lg:block">
           <Image
             src={productImages.mayqueen.floating}
             alt=""
             fill
-            sizes="390px"
+            quality={92}
+
+            sizes="(min-width: 1024px) 800px, 1px"
             className="object-cover object-[60%_center]"
           />
           <div className="from-forest-deep/90 via-forest-deep/25 absolute inset-0 bg-gradient-to-t to-transparent" />
@@ -105,7 +111,7 @@ export default function ConsultModal({ labels, formLabels, site }) {
           <div className="flex flex-col items-center text-center">
             <Image
               src={brand.horizontal}
-              alt="B.O.T Việt Nam"
+              alt="B.O.T"
               width={357}
               height={136}
               className="h-7 w-auto"

@@ -1,6 +1,7 @@
 import { t } from "@/i18n";
 
-// Menu chính (đường dẫn tiếng Việt — đi qua href(lang, path) khi render)
+// Menu chính bên trái logo (đường dẫn tiếng Việt — đi qua href(lang, path) khi render).
+// Bên phải logo là nút "Liên hệ" mở popup tư vấn (ui.contact).
 export const nav = [
   { label: t("Cửa hàng", "Shop"), path: "/san-pham" },
   { label: t("Combo liệu trình", "Ritual sets"), path: "/san-pham/combo-sang-dot-toi-loc" },
@@ -10,6 +11,7 @@ export const nav = [
 // Nhãn giao diện dùng chung
 export const ui = {
   consult: t("Tư vấn miễn phí", "Free advice"),
+  contact: t("Liên hệ", "Contact"),
   shopNow: t("Mua ngay", "Buy now"),
   addToCart: t("Thêm vào giỏ", "Add to bag"),
   added: t("Đã thêm ✓", "Added ✓"),
@@ -27,6 +29,16 @@ export const ui = {
   home: t("Trang chủ", "Home"),
   directions: t("Chỉ đường", "Directions"),
   language: t("Ngôn ngữ", "Language"),
+  view: t("Xem giấy", "View"),
+  search: {
+    open: t("Tìm kiếm", "Search"),
+    placeholder: t("Tìm sản phẩm, bài viết…", "Search products, articles…"),
+    suggest: t("Gợi ý sản phẩm", "Suggested products"),
+    results: t("Kết quả", "Results"),
+    empty: t("Không tìm thấy kết quả phù hợp.", "No matching results."),
+    product: t("Sản phẩm", "Product"),
+    article: t("Sống đẹp", "Journal"),
+  },
   consultModal: {
     title: t("Nhận tư vấn miễn phí", "Get free advice"),
     desc: t(
@@ -58,8 +70,8 @@ export const ui = {
     related: t("Hoàn thiện liệu trình của bạn", "Complete your ritual"),
     reviewsTitle: t("Khách hàng nói gì", "What customers say"),
     disclaimer: t(
-      "Thực phẩm bảo vệ sức khoẻ. Sản phẩm này không phải là thuốc và không có tác dụng thay thế thuốc chữa bệnh.",
-      "Health supplement. This product is not a medicine and does not replace medical treatment.",
+      "Thực phẩm bảo vệ sức khoẻ. Thực phẩm này không phải là thuốc, không có tác dụng thay thế thuốc chữa bệnh.",
+      "Health supplement. This food is not a medicine and does not replace medical treatment.",
     ),
   },
   cart: {
@@ -130,7 +142,7 @@ export const ui = {
   form: {
     name: t("Họ và tên", "Full name"),
     phone: t("Số điện thoại", "Phone number"),
-    goal: t("Mục tiêu của bạn", "Your goal"),
+    goal: t("Vấn đề bạn quan tâm", "What concerns you"),
     goals: [
       t("Giảm mỡ thừa, vòng bụng", "Lose fat & belly"),
       t("Thanh lọc, giảm đầy bụng", "Detox & de-bloat"),
@@ -165,10 +177,12 @@ export const footer = {
   policies: t("Chính sách", "Policies"),
   contact: t("Liên hệ", "Contact"),
   hotline: t("Hotline / Zalo", "Hotline / Zalo"),
+  // Lặp lại dòng lưu ý bắt buộc ở chân trang (theo brief)
   disclaimer: t(
-    "Thực phẩm bảo vệ sức khoẻ — Sản phẩm này không phải là thuốc và không có tác dụng thay thế thuốc chữa bệnh. Kết quả có thể khác nhau tuỳ cơ địa.",
-    "Health supplement — This product is not a medicine and does not replace medical treatment. Results may vary.",
+    "Thực phẩm này không phải là thuốc, không có tác dụng thay thế thuốc chữa bệnh.",
+    "This food is not a medicine and does not replace medical treatment.",
   ),
+  taxId: t("MST", "Tax ID"),
   rights: t("Bảo lưu mọi quyền.", "All rights reserved."),
   certified: t("Chính hãng B.O.T Việt Nam", "Authentic B.O.T Vietnam"),
   visit: t("Ghé thăm chúng tôi", "Visit us"),

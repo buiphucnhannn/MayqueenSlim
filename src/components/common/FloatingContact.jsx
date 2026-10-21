@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ClipboardList, MessageCircle, Phone, X } from "lucide-react";
 import { MessengerIcon, ZaloIcon } from "@/components/ui/BrandIcons";
 import { cn } from "@/lib/utils";
@@ -8,6 +8,20 @@ import { cn } from "@/lib/utils";
 // Cụm nút liên hệ nổi (góc phải dưới): bấm mở Hotline / Zalo / Messenger.
 export default function FloatingContact({ phoneRaw, zalo, messenger, labels }) {
   const [open, setOpen] = useState(false);
+  const rootRef = useRef(null);
+
+  // Đang mở: bấm ra ngoài cụm nút hoặc nhấn Esc thì tự đóng
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e) => !rootRef.current?.contains(e.target) && setOpen(false);
+    const onKey = (e) => e.key === "Escape" && setOpen(false);
+    document.addEventListener("pointerdown", onDown);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onDown);
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
   const items = [
     {
       label: labels.consult,
@@ -33,7 +47,10 @@ export default function FloatingContact({ phoneRaw, zalo, messenger, labels }) {
   ];
 
   return (
-    <div className="fixed right-4 bottom-4 z-[60] flex [transform:translateY(calc(var(--float-lift,0px)*-1))] flex-col items-end gap-3 transition-transform duration-300 ease-out sm:right-6 sm:bottom-6">
+    <div
+      ref={rootRef}
+      className="fixed right-4 bottom-4 z-[60] flex flex-col items-end gap-3 sm:right-6 sm:bottom-6"
+    >
       <ul className="flex flex-col items-end gap-3">
         {items.map(({ label, href, Icon, className, external, consult }, i) => {
           const inner = (
@@ -90,9 +107,16 @@ export default function FloatingContact({ phoneRaw, zalo, messenger, labels }) {
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-label={labels.call}
-        className="bg-pearl text-forest shadow-soft ring-forest/5 relative grid size-12 place-items-center rounded-full ring-1 transition hover:scale-105"
+        className={cn(
+          "shadow-card relative grid size-10 place-items-center rounded-full text-white transition duration-300 hover:scale-105",
+          open ? "bg-forest" : "bg-sage-600 hover:bg-forest",
+        )}
       >
-        {open ? <X className="relative size-5" /> : <MessageCircle className="relative size-5" />}
+        {open ? (
+          <X className="relative size-[18px]" />
+        ) : (
+          <MessageCircle className="relative size-[18px]" />
+        )}
       </button>
     </div>
   );

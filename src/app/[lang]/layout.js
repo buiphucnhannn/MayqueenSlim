@@ -1,32 +1,30 @@
-import { Be_Vietnam_Pro, Fraunces } from "next/font/google";
+import { Be_Vietnam_Pro, Cormorant_Garamond } from "next/font/google";
 import { notFound } from "next/navigation";
 import CartDrawer from "@/components/cart/CartDrawer";
 import BackToTop from "@/components/common/BackToTop";
 import ConsultModal from "@/components/common/ConsultModal";
 import FloatingContact from "@/components/common/FloatingContact";
-import FloatLift from "@/components/fx/FloatLift";
 import PageTransition from "@/components/fx/PageTransition";
 import Preloader from "@/components/fx/Preloader";
 import Reveal from "@/components/fx/Reveal";
 import SmoothScroll from "@/components/fx/SmoothScroll";
-import AnnouncementBar from "@/components/layout/AnnouncementBar";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import { siteConfig } from "@/config/site";
 import { CartProvider } from "@/context/CartContext";
-import { articleCategories } from "@/data/articles";
-import { announcements } from "@/data/home";
+import { articleCategories, articles } from "@/data/articles";
 import { policies } from "@/data/policies";
 import { products } from "@/data/products";
 import { footer, nav, ui } from "@/data/ui";
 import { LOCALES, href, isLocale, localize } from "@/i18n";
 import "../globals.css";
 
-// Tiêu đề: serif mềm mại, hiện đại (gần chữ trên vỏ hộp) · Nội dung: sans hỗ trợ tiếng Việt đầy đủ
-const serif = Fraunces({
+// Tiêu đề: serif sang (Cormorant Garamond — như web mẫu Kobler) · Nội dung: sans tiếng Việt đầy đủ
+const serif = Cormorant_Garamond({
   subsets: ["latin", "vietnamese"],
+  weight: ["400", "500", "600", "700"],
   style: ["normal", "italic"],
-  variable: "--font-fraunces",
+  variable: "--font-cormorant",
   display: "swap",
 });
 
@@ -45,7 +43,8 @@ export async function generateMetadata({ params }) {
   const { lang } = await params;
   if (!isLocale(lang)) return {};
   const site = localize(siteConfig, lang);
-  const title = `${site.name} — ${site.tagline}`;
+  // Quy ước tên tab: "Trang | Mayqueen Slim"; trang chủ: "Mayqueen Slim | khẩu hiệu"
+  const title = `${site.name} | ${site.homeTitle}`;
   return {
     metadataBase: new URL(site.url),
     title: { default: title, template: `%s | ${site.name}` },
@@ -77,10 +76,7 @@ export default async function RootLayout({ children, params }) {
   if (!isLocale(lang)) notFound();
 
   const site = localize(siteConfig, lang);
-  const L = localize(
-    { nav, ui, footer, announcements, products, policies, articleCategories },
-    lang,
-  );
+  const L = localize({ nav, ui, footer, products, policies, articleCategories, articles }, lang);
 
   // Dữ liệu có cấu trúc cho Google
   const jsonLd = {
@@ -114,15 +110,29 @@ export default async function RootLayout({ children, params }) {
           <Preloader caption={lang === "vi" ? "Thon gọn từ bên trong" : "Slim from within"} />
           <SmoothScroll />
           <PageTransition />
-          <FloatLift />
           <Reveal />
-          <AnnouncementBar messages={L.announcements} />
           <Header
             lang={lang}
             nav={L.nav}
             ui={L.ui}
             phone={site.phone}
             phoneRaw={site.phoneRaw}
+            searchItems={[
+              ...L.products.map((p) => ({
+                type: "product",
+                title: p.name,
+                sub: p.tagline,
+                path: `/san-pham/${p.slug}`,
+                image: p.images[0],
+              })),
+              ...L.articles.map((a) => ({
+                type: "article",
+                title: a.title,
+                sub: a.excerpt,
+                path: `/song-dep/${a.slug}`,
+                image: a.thumb,
+              })),
+            ]}
             menuProducts={L.products.map((p) => ({
               slug: p.slug,
               name: p.name,
