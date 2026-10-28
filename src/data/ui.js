@@ -109,11 +109,6 @@ export const ui = {
     payment: t("Hình thức thanh toán", "Payment method"),
     cod: t("Thanh toán khi nhận hàng (COD)", "Cash on delivery (COD)"),
     codNote: t("Kiểm tra hàng rồi mới thanh toán", "Inspect your order, then pay"),
-    bank: t("Chuyển khoản ngân hàng", "Bank transfer"),
-    bankNote: t(
-      "Thông tin chuyển khoản gửi kèm khi xác nhận đơn",
-      "Transfer details sent when we confirm",
-    ),
     summary: t("Đơn hàng của bạn", "Your order"),
     subtotal: t("Tạm tính", "Subtotal"),
     saved: t("Tiết kiệm", "Savings"),

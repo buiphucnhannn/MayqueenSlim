@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Banknote, CheckCircle2, Landmark, ShoppingBag } from "lucide-react";
+import { Banknote, Check, CheckCircle2, ShoppingBag } from "lucide-react";
 import QtyStepper from "@/components/cart/QtyStepper";
 import Button from "@/components/ui/Button";
 import { useCart } from "@/context/CartContext";
@@ -11,11 +11,10 @@ import { cn, formatPrice, isValidPhone } from "@/lib/utils";
 
 const initial = { name: "", phone: "", address: "", province: "", note: "" };
 
-// Trang đặt hàng: thông tin giao hàng + hình thức thanh toán + tóm tắt đơn. Gửi POST /api/order.
+// Trang đặt hàng: thông tin giao hàng + hình thức thanh toán (chỉ COD) + tóm tắt đơn. Gửi POST /api/order.
 export default function CheckoutForm({ labels }) {
   const { lang, lines, subtotal, saved, shipping, total, setQty, clear } = useCart();
   const [values, setValues] = useState(initial);
-  const [payment, setPayment] = useState("cod");
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState("idle"); // idle | sending | error
   const [order, setOrder] = useState(null);
@@ -41,7 +40,7 @@ export default function CheckoutForm({ labels }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           customer: values,
-          payment,
+          payment: "cod",
           items: lines.map(({ slug, optionId, qty }) => ({ slug, optionId, qty })),
         }),
       });
@@ -147,37 +146,18 @@ export default function CheckoutForm({ labels }) {
         <fieldset className="reveal bg-pearl shadow-card rounded-lg p-6 sm:p-8">
           <legend className="sr-only">{labels.payment}</legend>
           <h2 className="text-forest font-serif text-2xl">{labels.payment}</h2>
-          <div className="mt-5 space-y-3">
-            {[
-              ["cod", Banknote, labels.cod, labels.codNote],
-              ["bank", Landmark, labels.bank, labels.bankNote],
-            ].map(([id, Icon, title, note]) => (
-              <label
-                key={id}
-                className={cn(
-                  "flex cursor-pointer items-center gap-4 rounded-3xl border-2 p-4 transition",
-                  payment === id
-                    ? "border-sage-600 bg-sage-50"
-                    : "border-forest/10 hover:border-sage-300",
-                )}
-              >
-                <input
-                  type="radio"
-                  name="payment"
-                  value={id}
-                  checked={payment === id}
-                  onChange={() => setPayment(id)}
-                  className="sr-only"
-                />
-                <span className="bg-sage-100 text-sage-700 grid size-11 shrink-0 place-items-center rounded-full">
-                  <Icon className="size-5" aria-hidden="true" />
-                </span>
-                <span>
-                  <span className="text-forest block font-semibold">{title}</span>
-                  <span className="text-ink-muted block text-xs">{note}</span>
-                </span>
-              </label>
-            ))}
+          {/* Chỉ một hình thức: thanh toán khi nhận hàng — hiển thị dạng thẻ thông tin (không cần chọn) */}
+          <div className="border-sage-600 bg-sage-50 mt-5 flex items-center gap-4 rounded-3xl border-2 p-4">
+            <span className="bg-sage-100 text-sage-700 grid size-11 shrink-0 place-items-center rounded-full">
+              <Banknote className="size-5" aria-hidden="true" />
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="text-forest block font-semibold">{labels.cod}</span>
+              <span className="text-ink-muted block text-xs">{labels.codNote}</span>
+            </span>
+            <span className="bg-sage-600 grid size-6 shrink-0 place-items-center rounded-full text-white">
+              <Check className="size-3.5" aria-hidden="true" />
+            </span>
           </div>
         </fieldset>
       </div>

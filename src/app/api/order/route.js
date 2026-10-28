@@ -15,7 +15,7 @@ export async function POST(request) {
     return Response.json({ message: "Invalid JSON" }, { status: 400 });
   }
 
-  const { customer = {}, items = [], payment = "cod" } = body;
+  const { customer = {}, items = [] } = body;
   const name = String(customer.name ?? "").trim();
   const phone = String(customer.phone ?? "").trim();
   const address = String(customer.address ?? "").trim();
@@ -40,7 +40,7 @@ export async function POST(request) {
   console.log("[order]", {
     orderId,
     customer: { name, phone, address, province: customer.province, note: customer.note },
-    payment: payment === "bank" ? "bank" : "cod",
+    payment: "cod", // chỉ hỗ trợ thanh toán khi nhận hàng
     lines,
     subtotal,
     shipping,

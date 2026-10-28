@@ -35,8 +35,8 @@ export const policies = [
     title: t("Chính sách thanh toán", "Payment policy"),
     body: [
       t(
-        "Hỗ trợ thanh toán khi nhận hàng (COD) và chuyển khoản ngân hàng. Thông tin chuyển khoản sẽ được chuyên viên gửi khi xác nhận đơn.",
-        "We accept cash on delivery (COD) and bank transfer. Transfer details are sent when your order is confirmed.",
+        "Mayqueen hỗ trợ thanh toán khi nhận hàng (COD) trên toàn quốc. Bạn được kiểm tra hàng trước, hài lòng rồi mới thanh toán cho nhân viên giao hàng.",
+        "We accept cash on delivery (COD) nationwide. Inspect your order first and pay the courier only when you are satisfied.",
       ),
     ],
   },
